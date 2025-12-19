@@ -5,7 +5,13 @@
  */
 
 /* ===================================
-   1. CSS CUSTOM PROPERTIES (VARIABLES)
+   1. FONT IMPORT (Must be first)
+   =================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap');
+
+/* ===================================
+   2. CSS CUSTOM PROPERTIES (VARIABLES)
    =================================== */
 
 :root {
@@ -86,12 +92,6 @@
   --transition-fast: 0.1s ease;
   --transition-medium: 0.2s ease;
 }
-
-/* ===================================
-   2. FONT IMPORT
-   =================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap');
 
 /* ===================================
    3. GLOBAL RESET & BASE STYLES

@@ -15,6 +15,9 @@
     function init() {
         setupForm();
         setupSmoothScroll();
+        setupPhoneAnimations();
+        setupIconAnimations();
+        setupFAQ();
     }
 
     /**
@@ -61,11 +64,17 @@
                 form.reset();
             } else {
                 return response.json().then(data => {
-                    if (data.errors) {
+                    console.error('Formspree error:', data);
+                    // Show more specific error message
+                    if (data.error) {
+                        showFormMessage(form, 'error', `Error: ${data.error}. Please check your Formspree setup.`);
+                    } else if (data.errors) {
                         showFormMessage(form, 'error', 'There was an error. Please try again or email us directly.');
                     } else {
                         showFormMessage(form, 'error', 'Something went wrong. Please try again.');
                     }
+                }).catch(() => {
+                    showFormMessage(form, 'error', 'There was an error. Please check your Formspree form is confirmed and try again.');
                 });
             }
         })
@@ -139,12 +148,84 @@
     }
 
     /**
+     * Setup scroll-based phone mockup animations
+     */
+    function setupPhoneAnimations() {
+        const phoneItems = document.querySelectorAll('.phone-item');
+        if (!phoneItems.length) return;
+
+        // Options for the Intersection Observer
+        const observerOptions = {
+            root: null, // Use viewport as root
+            rootMargin: '0px 0px -100px 0px', // Trigger slightly before element enters viewport
+            threshold: 0.2 // Trigger when 20% of element is visible
+        };
+
+        // Callback function when intersection changes
+        const observerCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Element is entering viewport - add visible class
+                    entry.target.classList.add('phone-item-visible');
+                } else {
+                    // Element is leaving viewport - remove visible class for re-animation
+                    entry.target.classList.remove('phone-item-visible');
+                }
+            });
+        };
+
+        // Create the observer
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe each phone item
+        phoneItems.forEach(item => {
+            observer.observe(item);
+        });
+    }
+
+    /**
+     * Setup scroll-based icon feature animations
+     */
+    function setupIconAnimations() {
+        const iconItems = document.querySelectorAll('.icon-item');
+        if (!iconItems.length) return;
+
+        // Options for the Intersection Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -80px 0px',
+            threshold: 0.1
+        };
+
+        // Callback function when intersection changes
+        const observerCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Element is entering viewport - add visible class
+                    entry.target.classList.add('icon-item-visible');
+                } else {
+                    // Element is leaving viewport - remove visible class for re-animation
+                    entry.target.classList.remove('icon-item-visible');
+                }
+            });
+        };
+
+        // Create the observer
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe each icon item
+        iconItems.forEach(item => {
+            observer.observe(item);
+        });
+    }
+
+    /**
      * Optional: Add video loading fallback
      */
     function setupVideoFallback() {
         const video = document.querySelector('.hero-video');
         if (!video) return;
-        
+
         video.addEventListener('error', function() {
             // If video fails to load, hide video wrapper and show background
             const wrapper = this.closest('.hero-video-wrapper');
@@ -156,6 +237,57 @@
 
     // Initialize video fallback
     setupVideoFallback();
+
+    /**
+     * Set video playback rate to half speed for all phone showcase videos
+     */
+    function setupVideoPlaybackRate() {
+        const phoneVideos = document.querySelectorAll('.phone-showcase video');
+        phoneVideos.forEach(video => {
+            // Set playback rate once video metadata is loaded
+            if (video.readyState >= 2) {
+                video.playbackRate = 0.5; // Half speed
+            } else {
+                video.addEventListener('loadedmetadata', function() {
+                    this.playbackRate = 0.5; // Half speed
+                });
+            }
+        });
+    }
+
+    // Set video playback rate
+    setupVideoPlaybackRate();
+
+    /**
+     * Setup FAQ collapsible functionality
+     */
+    function setupFAQ() {
+        const faqToggle = document.getElementById('faqToggle');
+        const faqGrid = document.getElementById('faqGrid');
+        
+        if (!faqToggle || !faqGrid) return;
+        
+        faqToggle.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            
+            if (isExpanded) {
+                // Collapse
+                faqGrid.style.display = 'none';
+                this.setAttribute('aria-expanded', 'false');
+                this.querySelector('.faq-toggle-text').textContent = 'Show FAQ';
+            } else {
+                // Expand
+                faqGrid.style.display = 'grid';
+                this.setAttribute('aria-expanded', 'true');
+                this.querySelector('.faq-toggle-text').textContent = 'Hide FAQ';
+                
+                // Smooth scroll to FAQ section
+                setTimeout(() => {
+                    faqGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        });
+    }
 
 })();
 
