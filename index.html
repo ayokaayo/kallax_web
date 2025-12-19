@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kallax — Vinyl DJ Companion App</title>
+    <meta name="description" content="Boutique software for vinyl DJs. Discogs sync, accurate BPM, offline playlists, booth-ready workflow. Beta coming February 2025.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Kallax — Vinyl DJ Companion App">
+    <meta property="og:description" content="Built for the complete workflow: studio curation, bag packing, booth execution.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kallax.app">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="images/KALLAX_ICON.svg">
+    <link rel="apple-touch-icon" href="images/icon.png">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container">
+            <a href="#" class="logo-link">
+                <img src="images/KALLAX_LOGO.svg" alt="Kallax" class="logo">
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-video-wrapper">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="images/record2.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container hero-content">
+            <h1 class="hero-title">All your records,<br> from shelf to spin</h1>
+            <p class="hero-subtitle">The only DJ App built for Studio, Selection, & Spinning workflows.</p>
+            <a href="#waitlist" class="cta-button">Join the Waitlist</a>
+        </div>
+    </section>
+
+    <!-- PHONE MOCKUP WORKFLOW -->
+    <section class="phone-showcase">
+        <div class="container">
+            
+            <!-- Phone 1: Collection -->
+            <div class="phone-item">
+                <div class="phone-mockup">
+                    <img src="images/screenshots/collection-view.png" alt="Collection organized view" class="phone-screen">
+                </div>
+                <div class="phone-info">
+                    <h3 class="phone-title">Collection Organized</h3>
+                    <p class="phone-description">Sync Discogs once. Covers, labels, notes—everything offline and ready when you need it.</p>
+                </div>
+            </div>
+
+            <!-- Phone 2: Playlists -->
+            <div class="phone-item phone-item-reverse">
+                <div class="phone-mockup">
+                    <img src="images/screenshots/playlist-view.png" alt="Sets prepared view" class="phone-screen">
+                </div>
+                <div class="phone-info">
+                    <h3 class="phone-title">Sets Prepared</h3>
+                    <p class="phone-description">Drag-and-drop playlists. Pack what matters. 60-track bag warnings keep you honest.</p>
+                </div>
+            </div>
+
+            <!-- Phone 3: Live Mode -->
+            <div class="phone-item">
+                <div class="phone-mockup">
+                    <img src="images/screenshots/live-mode.png" alt="Flow maintained view" class="phone-screen">
+                </div>
+                <div class="phone-info">
+                    <h3 class="phone-title">Flow Maintained</h3>
+                    <p class="phone-description">Glanceable queue. Swipe navigation. Screen stays awake for multi-hour sets. The craft leads, we follow.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ICON GRID FEATURES -->
+    <section class="icon-features">
+        <div class="container">
+            
+            <div class="icon-grid">
+                
+                <!-- Icon 1: Offline -->
+                <div class="icon-item">
+                    <div class="icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M12 20h.01"></path>
+                            <path d="M8.5 16.429a5 5 0 0 1 7 0"></path>
+                            <path d="M5 12.859a10 10 0 0 1 5.17-2.69"></path>
+                            <path d="M19 12.859a10 10 0 0 0-5.17-2.69"></path>
+                            <path d="m2 2 20 20"></path>
+                        </svg>
+                    </div>
+                    <h4 class="icon-title">Offline-First</h4>
+                    <p class="icon-description">Works without internet after sync. Dead venue WiFi—no problem.</p>
+                </div>
+
+                <!-- Icon 2: Discogs Sync -->
+                <div class="icon-item">
+                    <div class="icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+                            <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+                            <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h4 class="icon-title">Discogs Sync</h4>
+                    <p class="icon-description">Full collection sync in 60 seconds. Auto-updates when you add records.</p>
+                </div>
+
+                <!-- Icon 3: Smart Playlists -->
+                <div class="icon-item">
+                    <div class="icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path>
+                        </svg>
+                    </div>
+                    <h4 class="icon-title">Smart Playlists</h4>
+                    <p class="icon-description">Build set playlists by feel. Reorder instantly. Export for reference.</p>
+                </div>
+
+                <!-- Icon 4: Accurate BPM -->
+                <div class="icon-item">
+                    <div class="icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h4 class="icon-title">Accurate BPM</h4>
+                    <p class="icon-description">Database matching finds BPM automatically. Miss? Tap-tempo in 3 seconds. No guessing.</p>
+                </div>
+
+                <!-- Icon 5: Yours for Life -->
+                <div class="icon-item">
+                    <div class="icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                        </svg>
+                    </div>
+                    <h4 class="icon-title">Yours for Life</h4>
+                    <p class="icon-description">No data mining. No ads. No subscription treadmill. Buy once, own forever.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- AVAILABILITY -->
+    <section class="availability">
+        <div class="container">
+            <h2 class="section-title">Coming Soon</h2>
+            <p class="availability-text">iOS (App Store) • Android (Google Play)</p>
+        </div>
+    </section>
+
+    <!-- WAITLIST FORM -->
+    <section id="waitlist" class="waitlist">
+        <div class="container">
+            <h2 class="section-title">Built by a DJ who got tired of guessing.</h2>
+            <p class="waitlist-intro">Kallax is boutique software—small batch, no VC funding, no data mining. This is a tool for the craft.</p>
+            <p class="waitlist-intro">We're looking for serious testers who spin vinyl and know what matters in the booth.</p>
+            
+            <!-- REPLACE ACTION WITH YOUR FORMSPREE ENDPOINT -->
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="waitlist-form" id="waitlistForm">
+                <input type="email" name="email" placeholder="Email *" required class="form-input" aria-label="Email address">
+                <input type="text" name="discogs_username" placeholder="Discogs username (optional)" class="form-input" aria-label="Discogs username">
+                <textarea name="setup" placeholder="Tell us about your setup (optional)" rows="3" class="form-textarea" aria-label="Tell us about your setup"></textarea>
+                
+                <!-- Honeypot for spam -->
+                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                
+                <button type="submit" class="cta-button">Request Beta Access</button>
+            </form>
+            
+            <p class="fine-print">Beta invites rolling out February 2025. TestFlight (iOS) and early access builds (Android).</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">Made by vinyl DJs, for vinyl DJs.</p>
+            <p class="footer-links">
+                <a href="mailto:contact@kallax.app">Contact</a> • 
+                <a href="/privacy">Privacy</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
