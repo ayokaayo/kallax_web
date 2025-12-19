@@ -33,3 +33,7 @@ build/
 *.tmp
 *.temp
 
+# Large video files (host elsewhere or use CDN)
+images/record2.mp4
+images/record3.mp4
+
