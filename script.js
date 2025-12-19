@@ -19,6 +19,7 @@
         setupIconAnimations();
         setupFAQ();
         setupPrivacyModal();
+        setupTestimonials();
     }
 
     /**
@@ -335,6 +336,14 @@
                 closeModal();
             }
         });
+    }
+
+    /**
+     * Setup testimonials - static for now (rotation disabled until more quotes added)
+     */
+    function setupTestimonials() {
+        // No rotation needed for 3 static testimonials
+        // Will be re-enabled when more testimonials are added
     }
 
 })();
