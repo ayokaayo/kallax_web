@@ -18,6 +18,7 @@
         setupPhoneAnimations();
         setupIconAnimations();
         setupFAQ();
+        setupPrivacyModal();
     }
 
     /**
@@ -264,12 +265,12 @@
     function setupFAQ() {
         const faqToggle = document.getElementById('faqToggle');
         const faqGrid = document.getElementById('faqGrid');
-        
+
         if (!faqToggle || !faqGrid) return;
-        
+
         faqToggle.addEventListener('click', function() {
             const isExpanded = this.getAttribute('aria-expanded') === 'true';
-            
+
             if (isExpanded) {
                 // Collapse
                 faqGrid.style.display = 'none';
@@ -280,11 +281,58 @@
                 faqGrid.style.display = 'grid';
                 this.setAttribute('aria-expanded', 'true');
                 this.querySelector('.faq-toggle-text').textContent = 'Hide FAQ';
-                
+
                 // Smooth scroll to FAQ section
                 setTimeout(() => {
                     faqGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
+            }
+        });
+    }
+
+    /**
+     * Setup privacy policy modal
+     */
+    function setupPrivacyModal() {
+        const privacyLink = document.getElementById('privacyLink');
+        const privacyModal = document.getElementById('privacyModal');
+        const closeButton = document.getElementById('privacyModalClose');
+
+        if (!privacyLink || !privacyModal || !closeButton) return;
+
+        // Open modal
+        privacyLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            privacyModal.classList.add('modal-open');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+
+            // Focus the close button for accessibility
+            setTimeout(() => {
+                closeButton.focus();
+            }, 100);
+        });
+
+        // Close modal function
+        function closeModal() {
+            privacyModal.classList.remove('modal-open');
+            document.body.style.overflow = ''; // Restore scroll
+            privacyLink.focus(); // Return focus to trigger element
+        }
+
+        // Close on button click
+        closeButton.addEventListener('click', closeModal);
+
+        // Close on overlay click
+        privacyModal.addEventListener('click', function(e) {
+            if (e.target === privacyModal) {
+                closeModal();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && privacyModal.classList.contains('modal-open')) {
+                closeModal();
             }
         });
     }

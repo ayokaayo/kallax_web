@@ -17,8 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="icon" type="image/svg+xml" href="images/KALLAX_ICON.svg">
     <link rel="apple-touch-icon" href="images/icon.png">
     
     <link rel="stylesheet" href="styles.css">
@@ -43,7 +43,7 @@
             <div class="hero-overlay"></div>
         </div>
         <div class="container hero-content">
-            <h1 class="hero-title">All your records,<br> from shelf to spin</h1>
+            <h1 class="hero-title">All your records,<br> from <span class="hero-highlight">shelf</span> to <span class="hero-highlight">spin</span></h1>
             <p class="hero-subtitle">The only DJ App built for Studio, Selection, & Spinning workflows.</p>
             <a href="#waitlist" class="cta-button">Join the Waitlist</a>
         </div>
@@ -213,7 +213,7 @@
                 
                 <div class="faq-item">
                     <h3 class="faq-question">Is this replacing DJ software?</h3>
-                    <p class="faq-answer">No. Kallax is not a DJ software. It's a companion for vinyl collectors ans DJs. No beatmatching, no CDJ integration.<br>It handles collection management, BPM, playlists, and booth reference. Your turntables stay front and center.</p>
+                    <p class="faq-answer">No. Kallax is not a DJ software. It's a companion for vinyl collectors and DJs. No beatmatching, no CDJ integration.<br>It handles collection management, BPM, playlists, and booth reference. Your turntables stay front and center.</p>
                 </div>
                 
                 <div class="faq-item">
@@ -248,7 +248,7 @@
                 <button type="submit" class="cta-button">Request Beta Access</button>
             </form>
             
-            <p class="fine-print">Self-funded & idependent. No ads, no data mining.<br>A genuine tool for the craft.</p>
+            <p class="fine-print">Self-funded & independent. No ads, no data mining.<br>A genuine tool for the craft.</p>
         </div>
     </section>
 
@@ -256,11 +256,66 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <img src="images/KALLAX_ICON.svg" alt="Kallax" class="footer-logo">
-                <p class="footer-text">Made by <a href="https://www.exotica.radio" target="_blank" rel="noopener noreferrer">Exotica Radio</a> for the whole vinyl community. © 2026 Kallax. All rights reserved.</p>
+                <img src="images/favicon.svg" alt="Kallax" class="footer-logo">
+                <p class="footer-text">Made by <a href="https://www.exotica.radio" target="_blank" rel="noopener noreferrer">Exotica Radio</a> for the whole vinyl community. © 2026 Kallax. All rights reserved. • <a href="#" id="privacyLink">Privacy Policy</a></p>
             </div>
         </div>
     </footer>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div class="modal-overlay" id="privacyModal" role="dialog" aria-labelledby="privacyModalTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="privacyModalTitle">Privacy Policy</h2>
+                <button class="modal-close" id="privacyModalClose" aria-label="Close privacy policy">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-intro">Last updated: December 19, 2024</p>
+
+                <h3>Overview</h3>
+                <p>Kallax is self-funded and independent. We don't sell your data, show ads, or track you beyond what's necessary to run the service.</p>
+
+                <h3>What We Collect</h3>
+                <ul>
+                    <li><strong>Email Address:</strong> When you sign up for the beta waitlist, we collect your email to send you invites and updates.</li>
+                    <li><strong>Discogs Username (Optional):</strong> If provided, we may use this to understand your collection size for beta testing purposes.</li>
+                    <li><strong>Setup Information (Optional):</strong> Any details you share about your DJ setup help us prioritize features.</li>
+                </ul>
+
+                <h3>How We Use Your Data</h3>
+                <ul>
+                    <li>Send beta invites and product updates</li>
+                    <li>Improve the app based on user feedback</li>
+                    <li>Provide customer support</li>
+                </ul>
+
+                <h3>What We Don't Do</h3>
+                <ul>
+                    <li>We don't sell or share your data with third parties for marketing</li>
+                    <li>We don't use tracking pixels or advertising networks</li>
+                    <li>We don't mine your data for profit</li>
+                </ul>
+
+                <h3>Data Storage</h3>
+                <p>Your email and optional information are stored securely via Formspree. We only access this data to manage the beta program.</p>
+
+                <h3>Your Rights</h3>
+                <p>You can request to see, update, or delete your data at any time by emailing <a href="mailto:contact@kallax.app">contact@kallax.app</a>.</p>
+
+                <h3>Changes to This Policy</h3>
+                <p>We may update this policy as Kallax evolves. Any changes will be reflected here with an updated date.</p>
+
+                <h3>Contact</h3>
+                <p>Questions? Email us at <a href="mailto:contact@kallax.app">contact@kallax.app</a>.</p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
