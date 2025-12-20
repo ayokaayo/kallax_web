@@ -13,6 +13,7 @@
     }
 
     function init() {
+        setupRandomHeroVideo();
         setupForm();
         setupSmoothScroll();
         setupPhoneAnimations();
@@ -20,6 +21,32 @@
         setupFAQ();
         setupPrivacyModal();
         setupTestimonials();
+    }
+
+    /**
+     * Setup random hero video selection
+     */
+    function setupRandomHeroVideo() {
+        const heroVideo = document.querySelector('.hero-video');
+        if (!heroVideo) return;
+
+        // Array of available hero videos
+        const heroVideos = [
+            'images/hero/dig.mp4',
+            'images/hero/record1.mp4',
+            'images/hero/record2.mp4',
+            'images/hero/record3.mp4'
+        ];
+
+        // Select random video
+        const randomVideo = heroVideos[Math.floor(Math.random() * heroVideos.length)];
+
+        // Set the video source
+        const source = heroVideo.querySelector('source');
+        if (source) {
+            source.src = randomVideo;
+            heroVideo.load(); // Reload the video with new source
+        }
     }
 
     /**

@@ -32,3 +32,4 @@
 - `feature-*.png` - Feature screenshots
 - Recommended: 1200x800px, optimized for web
 
+
