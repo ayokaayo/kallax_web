@@ -292,30 +292,39 @@
      */
     function setupFAQ() {
         const faqToggle = document.getElementById('faqToggle');
+        const faqToggleBottom = document.getElementById('faqToggleBottom');
         const faqGrid = document.getElementById('faqGrid');
 
-        if (!faqToggle || !faqGrid) return;
+        if (!faqToggle || !faqGrid || !faqToggleBottom) return;
 
-        faqToggle.addEventListener('click', function() {
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        function expandFAQ() {
+            faqGrid.classList.add('faq-expanded');
+            faqToggle.setAttribute('aria-expanded', 'true');
+            faqToggle.style.display = 'none';
 
-            if (isExpanded) {
-                // Collapse
-                faqGrid.style.display = 'none';
-                this.setAttribute('aria-expanded', 'false');
-                this.querySelector('.faq-toggle-text').textContent = 'Show FAQ';
-            } else {
-                // Expand
-                faqGrid.style.display = 'grid';
-                this.setAttribute('aria-expanded', 'true');
-                this.querySelector('.faq-toggle-text').textContent = 'Hide FAQ';
-
-                // Smooth scroll to FAQ section
+            // Show bottom button with delay for smooth transition
+            setTimeout(() => {
+                faqToggleBottom.style.display = 'inline-flex';
                 setTimeout(() => {
-                    faqGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
-            }
-        });
+                    faqToggleBottom.classList.add('visible');
+                }, 10);
+            }, 300);
+        }
+
+        function collapseFAQ() {
+            faqGrid.classList.remove('faq-expanded');
+            faqToggle.setAttribute('aria-expanded', 'false');
+            faqToggleBottom.classList.remove('visible');
+
+            // Hide bottom button and show top button after collapse animation
+            setTimeout(() => {
+                faqToggleBottom.style.display = 'none';
+                faqToggle.style.display = 'inline-flex';
+            }, 400);
+        }
+
+        faqToggle.addEventListener('click', expandFAQ);
+        faqToggleBottom.addEventListener('click', collapseFAQ);
     }
 
     /**
@@ -366,11 +375,73 @@
     }
 
     /**
-     * Setup testimonials - static for now (rotation disabled until more quotes added)
+     * Setup testimonials carousel with navigation
      */
     function setupTestimonials() {
-        // No rotation needed for 3 static testimonials
-        // Will be re-enabled when more testimonials are added
+        const prevButton = document.querySelector('.testimonial-nav-prev');
+        const nextButton = document.querySelector('.testimonial-nav-next');
+        const cards = document.querySelectorAll('.testimonial-card');
+
+        if (!prevButton || !nextButton || !cards.length) return;
+
+        let currentIndex = 0;
+
+        // Initialize and update carousel based on viewport
+        function updateCarousel() {
+            const width = window.innerWidth;
+
+            if (width <= 767) {
+                // Mobile: show 1 card at a time
+                cards.forEach((card, index) => {
+                    if (index === currentIndex) {
+                        card.classList.add('active');
+                    } else {
+                        card.classList.remove('active');
+                    }
+                });
+            } else if (width >= 768 && width <= 1023) {
+                // Tablet: show 2 cards at a time
+                cards.forEach((card, index) => {
+                    // Show current card and the next one
+                    if (index === currentIndex || index === (currentIndex + 1) % cards.length) {
+                        card.classList.add('active');
+                    } else {
+                        card.classList.remove('active');
+                    }
+                });
+            } else {
+                // Desktop: show all 3 cards
+                cards.forEach(card => {
+                    card.classList.add('active');
+                });
+            }
+        }
+
+        // Navigate to previous testimonial
+        function goToPrev() {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateCarousel();
+        }
+
+        // Navigate to next testimonial
+        function goToNext() {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateCarousel();
+        }
+
+        // Event listeners
+        prevButton.addEventListener('click', goToPrev);
+        nextButton.addEventListener('click', goToNext);
+
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateCarousel, 100);
+        });
+
+        // Initialize carousel
+        updateCarousel();
     }
 
 })();
