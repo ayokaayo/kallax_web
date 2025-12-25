@@ -1193,12 +1193,11 @@ section {
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
-    border: var(--border-medium);
-    box-shadow: var(--shadow-large);
     border-radius: 24px;
     object-fit: cover;
+    object-position: center;
     z-index: 1;
     opacity: 1;
     transition: opacity 0.6s ease-out;
