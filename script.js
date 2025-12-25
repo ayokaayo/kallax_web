@@ -21,6 +21,7 @@
         setupFAQ();
         setupPrivacyModal();
         setupTestimonials();
+        setupVideoPlaceholders();
     }
 
     /**
@@ -286,6 +287,33 @@
 
     // Set video playback rate
     setupVideoPlaybackRate();
+
+    /**
+     * Setup video placeholder fade-out when videos load
+     */
+    function setupVideoPlaceholders() {
+        const phoneVideos = document.querySelectorAll('.phone-showcase .phone-screen');
+
+        phoneVideos.forEach(video => {
+            const placeholder = video.previousElementSibling;
+
+            // Check if the placeholder exists and is an image
+            if (placeholder && placeholder.classList.contains('phone-placeholder')) {
+                // Function to handle the fade-out
+                const handleVideoLoad = function() {
+                    placeholder.classList.add('loaded');
+                };
+
+                // If video already has enough data loaded, fade immediately
+                if (video.readyState >= 3) { // HAVE_FUTURE_DATA or higher
+                    handleVideoLoad();
+                } else {
+                    // Otherwise wait for video to be ready
+                    video.addEventListener('canplay', handleVideoLoad, { once: true });
+                }
+            }
+        });
+    }
 
     /**
      * Setup FAQ collapsible functionality

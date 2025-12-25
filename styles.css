@@ -1187,6 +1187,29 @@ section {
     background: #000; /* Black background for videos */
 }
 
+/* Placeholder images for videos */
+.phone-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    border: var(--border-medium);
+    box-shadow: var(--shadow-large);
+    border-radius: 24px;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.6s ease-out;
+    pointer-events: none; /* Allow clicks to pass through to video */
+}
+
+/* Fade out when video is loaded */
+.phone-placeholder.loaded {
+    opacity: 0;
+}
+
 .phone-info {
     background: var(--color-bg-secondary);
     padding: var(--space-8);
