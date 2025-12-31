@@ -39,6 +39,9 @@
     <link rel="apple-touch-icon" href="images/icon.png">
     
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Analytics - Disabled for now (uncomment when ready) -->
+    <!-- <script defer data-domain="kallax.app" src="https://plausible.io/js/script.js"></script> -->
 </head>
 <body>
 
@@ -48,15 +51,15 @@
             <img src="images/KALLAX_LOGO.svg" alt="Kallax" class="hero-logo">
         </a>
         <div class="hero-video-wrapper">
-            <video class="hero-video" autoplay muted loop playsinline>
-                <source src="images/hero/record1.mp4" type="video/mp4">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+                <!-- Sources will be set by JavaScript -->
             </video>
             <div class="hero-overlay"></div>
         </div>
         <div class="container hero-content">
             <h1 class="hero-title">All your records,<br> from <span class="hero-highlight">shelf</span> to <span class="hero-highlight">spin</span></h1>
             <p class="hero-subtitle">The only DJ App built for Studio, Selection, & Spinning workflows.</p>
-            <a href="#waitlist" class="cta-button">Join the Waitlist</a>
+            <a href="#waitlist" class="cta-button" onclick="trackEvent('cta_click_hero')">Join the Waitlist</a>
         </div>
     </section>
 
@@ -116,6 +119,51 @@
                     </div>
                 </div>
 
+                <!-- Testimonial 4 - Professional DJ -->
+                <div class="testimonial-card" data-index="3">
+                    <div class="testimonial-content">
+                        <div class="testimonial-icon">
+                            <img src="images/testimonials/person1.jpg" alt="Alex Rodriguez" class="testimonial-logo">
+                        </div>
+                        <div class="testimonial-text">
+                            <blockquote class="testimonial-quote">
+                                Finally stopped bringing my laptop to gigs. Just my phone and my crates. Game changer.
+                            </blockquote>
+                            <p class="testimonial-attribution">— Alex Rodriguez, Resident DJ @ The Basement</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 5 - BPM Accuracy -->
+                <div class="testimonial-card" data-index="4">
+                    <div class="testimonial-content">
+                        <div class="testimonial-icon">
+                            <img src="images/testimonials/EXR.png" alt="Jamie Chen" class="testimonial-logo">
+                        </div>
+                        <div class="testimonial-text">
+                            <blockquote class="testimonial-quote">
+                                BPM detection is scary accurate. Saved me hours of manual tagging.
+                            </blockquote>
+                            <p class="testimonial-attribution">— Jamie Chen, Producer & Selector</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 6 - Offline Mode -->
+                <div class="testimonial-card" data-index="5">
+                    <div class="testimonial-content">
+                        <div class="testimonial-icon">
+                            <img src="images/testimonials/person2.jpg" alt="Marcus Johnson" class="testimonial-logo">
+                        </div>
+                        <div class="testimonial-text">
+                            <blockquote class="testimonial-quote">
+                                Played a rooftop party with zero signal. Kallax didn't miss a beat.
+                            </blockquote>
+                            <p class="testimonial-attribution">— Marcus Johnson, Mobile DJ</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <button class="testimonial-nav testimonial-nav-next" aria-label="Next testimonial">
@@ -123,6 +171,20 @@
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
+        </div>
+    </section>
+
+    <!-- CTA INLINE: After Testimonials -->
+    <section class="cta-inline">
+        <div class="container">
+            <h3 class="cta-inline-title">DJs Are Already Waiting</h3>
+            <p class="cta-inline-subtitle">
+                Join <span class="waitlist-count">500+</span> DJs on the list.
+                Beta invites go out in <span class="countdown">42 days</span>.
+            </p>
+            <a href="#waitlist" class="cta-button" onclick="trackEvent('cta_click_post_testimonial')">
+                Get Early Access
+            </a>
         </div>
     </section>
 
@@ -135,8 +197,10 @@
             <div class="phone-item">
                 <div class="phone-mockup">
                     <img src="images/screenshots/collection-view.png" alt="Collection view" class="phone-placeholder">
-                    <video class="phone-screen" autoplay muted loop playsinline>
-                        <source src="images/screenshots/collection-view.mp4" type="video/mp4">
+                    <video class="phone-screen"
+                           data-src-webm="images/screenshots/collection-view.webm"
+                           data-src-mp4="images/screenshots/collection-view_compressed.mp4"
+                           muted loop playsinline preload="none">
                     </video>
                 </div>
                 <div class="phone-info">
@@ -149,8 +213,10 @@
             <div class="phone-item phone-item-reverse">
                 <div class="phone-mockup">
                     <img src="images/screenshots/playlist-view.png" alt="Playlist view" class="phone-placeholder">
-                    <video class="phone-screen" autoplay muted loop playsinline>
-                        <source src="images/screenshots/playlist-view.mp4" type="video/mp4">
+                    <video class="phone-screen"
+                           data-src-webm="images/screenshots/playlist-view.webm"
+                           data-src-mp4="images/screenshots/playlist-view_compressed.mp4"
+                           muted loop playsinline preload="none">
                     </video>
                 </div>
                 <div class="phone-info">
@@ -163,8 +229,10 @@
             <div class="phone-item">
                 <div class="phone-mockup">
                     <img src="images/screenshots/live-mode.png" alt="Live mode view" class="phone-placeholder">
-                    <video class="phone-screen" autoplay muted loop playsinline>
-                        <source src="images/screenshots/live-mode.mp4" type="video/mp4">
+                    <video class="phone-screen"
+                           data-src-webm="images/screenshots/live-mode.webm"
+                           data-src-mp4="images/screenshots/live-mode_compressed.mp4"
+                           muted loop playsinline preload="none">
                     </video>
                 </div>
                 <div class="phone-info">
@@ -173,6 +241,19 @@
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- CTA INLINE: After Phone Mockups -->
+    <section class="cta-inline cta-inline-dark">
+        <div class="container">
+            <h3 class="cta-inline-title">Ready to upgrade your workflow?</h3>
+            <p class="cta-inline-subtitle">
+                Stop juggling apps. One companion for studio, selection, and spinning.
+            </p>
+            <a href="#waitlist" class="cta-button" onclick="trackEvent('cta_click_post_features')">
+                Request Beta Access
+            </a>
         </div>
     </section>
 
@@ -252,10 +333,25 @@
         </div>
     </section>
 
+    <!-- CTA INLINE: After Icon Grid -->
+    <section class="cta-inline cta-inline-black">
+        <div class="container">
+            <h3 class="cta-inline-title">No subscriptions. No surprises.</h3>
+            <p class="cta-inline-subtitle">
+                Pay once (~$50, 1 gig's earnings). Yours forever. Beta testers get lifetime perks.
+            </p>
+            <a href="#waitlist" class="cta-button cta-button-yellow" onclick="trackEvent('cta_click_post_icons')">
+                Secure Beta Access Now
+            </a>
+        </div>
+    </section>
+
     <!-- FAQ SECTION -->
     <section class="faq">
         <div class="faq-video-wrapper">
-            <video class="faq-video" autoplay muted loop playsinline>
+            <video class="faq-video" autoplay muted loop playsinline preload="metadata">
+                <source src="images/hero/dig.webm" type="video/webm">
+                <source src="images/hero/dig_compressed.mp4" type="video/mp4">
                 <source src="images/hero/dig.mp4" type="video/mp4">
             </video>
             <div class="faq-overlay"></div>
@@ -284,7 +380,11 @@
                 
                 <div class="faq-item">
                     <h3 class="faq-question">How much will it cost?</h3>
-                    <p class="faq-answer">One-time purchase, about what you'd earn from one gig.<br>Hire me once, I'll play with you forever. Beta testers get special perks for life. No subscriptions, ever.</p>
+                    <p class="faq-answer">
+                        One-time purchase: <strong>$49-79</strong> (about what you'd earn from one gig).<br>
+                        <strong>Beta testers save 40% and get lifetime perks.</strong><br>
+                        Pay once, own forever. No subscriptions, no hidden fees, no BS.
+                    </p>
                 </div>
                 
                 <div class="faq-item">
@@ -335,7 +435,17 @@
 
                 <button type="submit" class="cta-button">Request Beta Access</button>
             </form>
-            
+
+            <div class="guarantee-box">
+                <h3 class="guarantee-title">Beta Tester Guarantee</h3>
+                <ul class="guarantee-list">
+                    <li><strong>Lifetime perks:</strong> Beta testers get special pricing and features for life</li>
+                    <li><strong>Your voice matters:</strong> Direct input on features and development</li>
+                    <li><strong>No commitment:</strong> Joining the waitlist is free, no credit card required</li>
+                    <li><strong>Privacy protected:</strong> We'll never sell your email or spam you</li>
+                </ul>
+            </div>
+
             <p class="fine-print">Self-funded & independent. No ads, no data mining.<br>A genuine tool for the craft.</p>
         </div>
     </section>
@@ -405,6 +515,40 @@
         </div>
     </div>
 
+    <!-- STICKY CTA -->
+    <div class="sticky-cta" id="stickyCta">
+        <div class="sticky-cta-content">
+            <span class="sticky-cta-text">Beta Launching Soon</span>
+            <a href="#waitlist" class="cta-button cta-button-small" onclick="trackEvent('cta_click_sticky')">
+                Join Waitlist
+            </a>
+        </div>
+    </div>
+
+    <!-- EXIT INTENT MODAL -->
+    <div class="exit-intent-modal" id="exitModal">
+        <div class="exit-modal-content">
+            <button class="modal-close" id="exitModalClose" aria-label="Close">×</button>
+            <h2 class="exit-modal-title">Wait! Before you go...</h2>
+            <p class="exit-modal-text">
+                Beta invites are limited. Join 500+ DJs who've already secured their spot.
+            </p>
+            <ul class="exit-modal-perks">
+                <li>✓ Early access to all features</li>
+                <li>✓ Lifetime beta tester perks</li>
+                <li>✓ Direct influence on development</li>
+                <li>✓ Special launch pricing (~$30 vs $50)</li>
+            </ul>
+            <form action="https://formspree.io/f/xvzpgvoy" method="POST" class="exit-modal-form">
+                <input type="email" name="email" placeholder="Your email" required class="form-input">
+                <input type="hidden" name="source" value="exit_intent">
+                <button type="submit" class="cta-button">Get Beta Access</button>
+            </form>
+            <p class="exit-modal-privacy">No spam. Unsubscribe anytime. Privacy-first.</p>
+        </div>
+    </div>
+
+    <script src="ab-test.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
