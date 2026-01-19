@@ -66,27 +66,7 @@
      */
     document.addEventListener('DOMContentLoaded', function() {
 
-        // Test 1: Hero CTA Text
-        const heroCtaTest = new ABTest('hero_cta_text', ['control', 'variant_a', 'variant_b']);
-        heroCtaTest.run({
-            control: () => {
-                // "Join the Waitlist" (current default)
-            },
-            variant_a: () => {
-                const heroCta = document.querySelector('.hero .cta-button');
-                if (heroCta) {
-                    heroCta.textContent = 'Get Beta Access';
-                }
-            },
-            variant_b: () => {
-                const heroCta = document.querySelector('.hero .cta-button');
-                if (heroCta) {
-                    heroCta.textContent = 'Secure Your Spot';
-                }
-            }
-        });
-
-        // Test 2: Hero Headline
+        // Test 1: Hero Headline
         const heroHeadlineTest = new ABTest('hero_headline', ['control', 'variant_a']);
         heroHeadlineTest.run({
             control: () => {
@@ -150,10 +130,10 @@
 
     /**
      * Helper function to track conversions with variant info
-     * Call this when user completes a goal action
+     * Call this when user completes a goal action (e.g., clicking download)
      */
     window.trackABConversion = function(goalName) {
-        const tests = ['hero_cta_text', 'hero_headline', 'faq_default'];
+        const tests = ['hero_headline', 'faq_default'];
         const variants = {};
 
         tests.forEach(testName => {
@@ -174,18 +154,15 @@
     };
 
     /**
-     * Track conversion when form is successfully submitted
-     * This integrates with the existing form handling
+     * Track conversion when user clicks download links
      */
-    const originalFetch = window.fetch;
-    window.fetch = function(...args) {
-        return originalFetch.apply(this, args).then(response => {
-            // Track AB conversion on successful form submit
-            if (args[0] && args[0].includes('formspree.io') && response.ok) {
-                window.trackABConversion('waitlist_signup');
-            }
-            return response;
+    document.addEventListener('DOMContentLoaded', function() {
+        const downloadLinks = document.querySelectorAll('a[href*="play.google.com"]');
+        downloadLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                window.trackABConversion('app_download');
+            });
         });
-    };
+    });
 
 })();

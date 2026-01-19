@@ -15,7 +15,6 @@
     function init() {
         setupRandomHeroVideo();
         setupFAQVideo();
-        setupForm();
         setupSmoothScroll();
         setupPhoneAnimations();
         setupIconAnimations();
@@ -25,8 +24,6 @@
         setupLazyVideoLoading();
         setupVideoPlaceholders();
         setupScrollDepthTracking();
-        setupCountdown();
-        setupWaitlistCounter();
         setupExitIntent();
         setupStickyCTA();
         optimizeTouchTargets();
@@ -115,125 +112,6 @@
                 document.addEventListener('click', playOnInteraction, { once: true });
             });
         }
-    }
-
-    /**
-     * Setup form submission handling
-     */
-    function setupForm() {
-        const form = document.getElementById('waitlistForm');
-        if (!form) return;
-
-        // Track when user starts filling the form
-        const emailInput = form.querySelector('input[name="email"]');
-        if (emailInput) {
-            emailInput.addEventListener('focus', function() {
-                trackEvent('waitlist_form_start');
-            }, { once: true });
-        }
-
-        form.addEventListener('submit', function(e) {
-            trackEvent('waitlist_form_submit');
-            handleFormSubmit(e);
-        });
-    }
-
-    /**
-     * Handle form submission
-     */
-    function handleFormSubmit(e) {
-        e.preventDefault();
-        
-        const form = e.target;
-        const submitButton = form.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
-        
-        // Disable button and show loading state
-        submitButton.disabled = true;
-        submitButton.textContent = 'Submitting...';
-        
-        // Remove any existing messages
-        removeFormMessages(form);
-        
-        // Get form data
-        const formData = new FormData(form);
-        
-        // Submit to Formspree
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                trackEvent('waitlist_form_success');
-                showFormMessage(form, 'success', 'Thanks! We\'ll be in touch soon.');
-                form.reset();
-            } else {
-                trackEvent('waitlist_form_error');
-
-                return response.json().then(data => {
-                    console.error('Formspree error:', data);
-                    // Show more specific error message
-                    if (data.error) {
-                        showFormMessage(form, 'error', `Error: ${data.error}. Please check your Formspree setup.`);
-                    } else if (data.errors) {
-                        showFormMessage(form, 'error', 'There was an error. Please try again or email us directly.');
-                    } else {
-                        showFormMessage(form, 'error', 'Something went wrong. Please try again.');
-                    }
-                }).catch(() => {
-                    showFormMessage(form, 'error', 'There was an error. Please check your Formspree form is confirmed and try again.');
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Form submission error:', error);
-            showFormMessage(form, 'error', 'Network error. Please check your connection and try again.');
-        })
-        .finally(() => {
-            // Re-enable button
-            submitButton.disabled = false;
-            submitButton.textContent = originalButtonText;
-        });
-    }
-
-    /**
-     * Show form message
-     */
-    function showFormMessage(form, type, message) {
-        // Remove existing messages
-        removeFormMessages(form);
-        
-        // Create message element
-        const messageEl = document.createElement('div');
-        messageEl.className = `form-message ${type}`;
-        messageEl.textContent = message;
-        messageEl.setAttribute('role', type === 'error' ? 'alert' : 'status');
-        
-        // Insert before submit button
-        const submitButton = form.querySelector('button[type="submit"]');
-        form.insertBefore(messageEl, submitButton);
-        
-        // Scroll to message
-        messageEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        
-        // Auto-remove success messages after 5 seconds
-        if (type === 'success') {
-            setTimeout(() => {
-                messageEl.remove();
-            }, 5000);
-        }
-    }
-
-    /**
-     * Remove existing form messages
-     */
-    function removeFormMessages(form) {
-        const messages = form.querySelectorAll('.form-message');
-        messages.forEach(msg => msg.remove());
     }
 
     /**
@@ -667,55 +545,6 @@
     }
 
     /**
-     * Setup countdown timer to launch date
-     */
-    function setupCountdown() {
-        // Set your launch date (change this to your actual launch date)
-        const launchDate = new Date('2025-02-01T00:00:00');
-        const countdownElements = document.querySelectorAll('.countdown');
-
-        if (!countdownElements.length) return;
-
-        function updateCountdown() {
-            const now = new Date();
-            const diff = launchDate - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-            countdownElements.forEach(el => {
-                el.textContent = `${days} days`;
-            });
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 3600000); // Update every hour
-    }
-
-    /**
-     * Setup dynamic waitlist counter
-     */
-    function setupWaitlistCounter() {
-        const waitlistElements = document.querySelectorAll('.waitlist-count');
-        if (!waitlistElements.length) return;
-
-        // Baseline count and growth rate
-        const baseCount = 478;
-        const startTime = new Date('2024-12-01').getTime();
-        const growthRate = 3; // signups per day
-
-        function updateCounter() {
-            const now = new Date().getTime();
-            const daysPassed = Math.floor((now - startTime) / (1000 * 60 * 60 * 24));
-            const currentCount = baseCount + (daysPassed * growthRate);
-
-            waitlistElements.forEach(el => {
-                el.textContent = currentCount.toLocaleString() + '+';
-            });
-        }
-
-        updateCounter();
-    }
-
-    /**
      * Setup exit intent modal
      */
     function setupExitIntent() {
@@ -762,31 +591,6 @@
                 closeExitModal();
             }
         });
-
-        // Handle form submission in exit modal
-        const exitForm = exitModal.querySelector('form');
-        if (exitForm) {
-            exitForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                trackEvent('exit_intent_form_submit');
-
-                const formData = new FormData(exitForm);
-                fetch(exitForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        trackEvent('exit_intent_form_success');
-                        exitForm.innerHTML = '<p class="exit-modal-text" style="text-align: center; color: var(--color-success);">✓ Thanks! You\'re on the list.</p>';
-                        setTimeout(closeExitModal, 2000);
-                    }
-                });
-            });
-        }
 
         // Clean up expired localStorage entries
         const stored = localStorage.getItem('exit_modal_shown');
