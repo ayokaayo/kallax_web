@@ -635,26 +635,15 @@ section {
     font-family: 'Archivo', sans-serif;
 }
 
-.store-button.google-play {
-    background: #FFD53D !important;
-    color: #0f0f0f !important;
-    border-color: #0f0f0f;
-}
-
-.store-button.google-play:hover,
-.store-button.google-play:focus {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px 0px #0f0f0f;
-    background: #f5f5f5 !important;
-    color: #0f0f0f !important;
-}
-
+.store-button.google-play,
 .store-button.app-store {
     background: #FFD53D !important;
     color: #0f0f0f !important;
     border-color: #0f0f0f;
 }
 
+.store-button.google-play:hover,
+.store-button.google-play:focus,
 .store-button.app-store:hover,
 .store-button.app-store:focus {
     transform: translate(2px, 2px);
