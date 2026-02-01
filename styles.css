@@ -649,11 +649,18 @@ section {
     color: #0f0f0f !important;
 }
 
-.store-button.apple-coming-soon {
-    background: #1a1a1a;
-    color: #a0a0a0;
-    cursor: default;
-    opacity: 0.8;
+.store-button.app-store {
+    background: #FFD53D !important;
+    color: #0f0f0f !important;
+    border-color: #0f0f0f;
+}
+
+.store-button.app-store:hover,
+.store-button.app-store:focus {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px #0f0f0f;
+    background: #f5f5f5 !important;
+    color: #0f0f0f !important;
 }
 
 .store-icon {
