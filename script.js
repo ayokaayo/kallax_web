@@ -27,6 +27,18 @@
         setupExitIntent();
         setupStickyCTA();
         optimizeTouchTargets();
+        setupCollectionCounter();
+        setupReadingProgress();
+        setupParallax();
+        setupBackToTop();
+        setupMagneticButtons();
+        setupBPMCounter();
+        setupCursorTrail();
+        setupTestimonialSwipe();
+        setupSocialProof();
+        setupOfflineIndicator();
+        setupEmailCapture();
+        setupMobileHaptics();
     }
 
     /**
@@ -657,6 +669,408 @@
                     this.click();
                 }
             }, { passive: false });
+        });
+    }
+
+    /**
+     * Setup collection counter animation
+     * Animates from 0 to target number
+     */
+    function setupCollectionCounter() {
+        const counter = document.querySelector('.counter-number');
+        if (!counter) return;
+
+        const target = parseInt(counter.dataset.target, 10);
+        const duration = 2000; // 2 seconds
+        const startTime = performance.now();
+        const startValue = 0;
+
+        function updateCounter(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease out cubic
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.floor(startValue + (target - startValue) * easeOut);
+            
+            counter.textContent = currentValue.toLocaleString();
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            }
+        }
+
+        // Start animation after a short delay
+        setTimeout(() => {
+            requestAnimationFrame(updateCounter);
+        }, 1000);
+    }
+
+    /**
+     * Setup reading progress bar
+     */
+    function setupReadingProgress() {
+        const progressBar = document.getElementById('readingProgress');
+        if (!progressBar) return;
+
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+    }
+
+    /**
+     * Setup parallax effects for FAQ video
+     */
+    function setupParallax() {
+        const faqVideo = document.querySelector('.faq-video-wrapper');
+        if (!faqVideo) return;
+
+        // Check for reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
+        function updateParallax() {
+            const rect = faqVideo.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                const scrolled = (windowHeight - rect.top) / (windowHeight + rect.height);
+                const yPos = scrolled * 100 - 20; // -20% to +80% range
+                faqVideo.style.transform = `translateY(${yPos * 0.3}%)`;
+            }
+        }
+
+        window.addEventListener('scroll', updateParallax, { passive: true });
+        updateParallax();
+    }
+
+    /**
+     * Setup back to top button
+     */
+    function setupBackToTop() {
+        const backToTop = document.getElementById('backToTop');
+        if (!backToTop) return;
+
+        function toggleVisibility() {
+            const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            
+            if (scrollPercent > 25) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            trackEvent('back_to_top_clicked');
+        });
+
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+    }
+
+    /**
+     * Setup magnetic button effect
+     * Buttons follow cursor slightly within radius
+     */
+    function setupMagneticButtons() {
+        // Skip on touch devices
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+
+        const buttons = document.querySelectorAll('.cta-button, .store-button');
+        const magnetRadius = 20;
+
+        buttons.forEach(button => {
+            button.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                const distance = Math.sqrt(x * x + y * y);
+                
+                if (distance < magnetRadius * 2) {
+                    const strength = 0.3;
+                    this.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+                }
+            });
+
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+    }
+
+    /**
+     * Setup BPM counter animation on icon hover
+     */
+    function setupBPMCounter() {
+        const bpmIcon = document.querySelector('[data-bpm-icon]');
+        if (!bpmIcon) return;
+
+        const bpmDisplay = bpmIcon.querySelector('.bpm-counter-display');
+        const bpmValues = bpmDisplay.dataset.bpmValues.split(',').map(Number);
+        let currentIndex = 0;
+        let intervalId = null;
+
+        function animateBPM() {
+            bpmDisplay.textContent = bpmValues[currentIndex] + ' BPM';
+            currentIndex = (currentIndex + 1) % bpmValues.length;
+        }
+
+        bpmIcon.addEventListener('mouseenter', function() {
+            bpmIcon.classList.add('bpm-animating');
+            animateBPM();
+            intervalId = setInterval(animateBPM, 600);
+        });
+
+        bpmIcon.addEventListener('mouseleave', function() {
+            bpmIcon.classList.remove('bpm-animating');
+            clearInterval(intervalId);
+            currentIndex = 0;
+            bpmDisplay.textContent = '128 BPM';
+        });
+    }
+
+    /**
+     * Setup vinyl cursor trail
+     */
+    function setupCursorTrail() {
+        // Skip on touch devices or reduced motion
+        if (window.matchMedia('(pointer: coarse)').matches || 
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
+        const trail = document.getElementById('cursorTrail');
+        if (!trail) return;
+
+        let mouseX = 0, mouseY = 0;
+        let trailX = 0, trailY = 0;
+        let isActive = false;
+        let rafId = null;
+
+        function updateTrail() {
+            if (!isActive) return;
+
+            const dx = mouseX - trailX;
+            const dy = mouseY - trailY;
+            
+            trailX += dx * 0.15;
+            trailY += dy * 0.15;
+            
+            trail.style.left = (trailX - 20) + 'px';
+            trail.style.top = (trailY - 20) + 'px';
+            
+            rafId = requestAnimationFrame(updateTrail);
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (!isActive) {
+                isActive = true;
+                trail.classList.add('visible');
+                updateTrail();
+            }
+        });
+
+        document.addEventListener('mouseleave', function() {
+            isActive = false;
+            trail.classList.remove('visible');
+            if (rafId) cancelAnimationFrame(rafId);
+        });
+    }
+
+    /**
+     * Setup testimonial carousel with swipe support and progress bar
+     */
+    function setupTestimonialSwipe() {
+        const carousel = document.querySelector('.testimonials-carousel');
+        const progressBar = document.getElementById('carouselProgress');
+        if (!carousel || !progressBar) return;
+
+        // Auto-advance progress
+        const autoAdvanceDuration = 5000; // 5 seconds
+        let progress = 0;
+        let progressInterval = null;
+        let lastTime = performance.now();
+
+        function updateProgress(currentTime) {
+            const delta = currentTime - lastTime;
+            lastTime = currentTime;
+            
+            progress += (delta / autoAdvanceDuration) * 100;
+            
+            if (progress >= 100) {
+                progress = 0;
+                // Trigger next slide
+                const nextBtn = document.querySelector('.testimonial-nav-next');
+                if (nextBtn) nextBtn.click();
+            }
+            
+            progressBar.style.width = progress + '%';
+            progressInterval = requestAnimationFrame(updateProgress);
+        }
+
+        // Start progress
+        progressInterval = requestAnimationFrame(updateProgress);
+
+        // Pause on hover
+        carousel.addEventListener('mouseenter', () => {
+            cancelAnimationFrame(progressInterval);
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            lastTime = performance.now();
+            progressInterval = requestAnimationFrame(updateProgress);
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const minSwipeDistance = 50;
+
+        carousel.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > minSwipeDistance) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go previous
+                    const prevBtn = document.querySelector('.testimonial-nav-prev');
+                    if (prevBtn) prevBtn.click();
+                } else {
+                    // Swipe left - go next
+                    const nextBtn = document.querySelector('.testimonial-nav-next');
+                    if (nextBtn) nextBtn.click();
+                }
+                // Reset progress on manual navigation
+                progress = 0;
+            }
+        }
+    }
+
+    /**
+     * Setup social proof notification
+     */
+    function setupSocialProof() {
+        const toast = document.getElementById('socialProofToast');
+        if (!toast) return;
+
+        // Random viewer count between 8-25
+        const viewerCount = document.getElementById('viewerCount');
+        
+        function updateViewerCount() {
+            const count = Math.floor(Math.random() * 18) + 8;
+            if (viewerCount) viewerCount.textContent = count;
+        }
+
+        // Show toast after 5 seconds
+        setTimeout(() => {
+            updateViewerCount();
+            toast.classList.add('visible');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 5000);
+        }, 5000);
+
+        // Update count periodically while visible
+        setInterval(updateViewerCount, 10000);
+    }
+
+    /**
+     * Setup offline indicator
+     */
+    function setupOfflineIndicator() {
+        const indicator = document.getElementById('offlineIndicator');
+        if (!indicator || !navigator.onLine === undefined) return;
+
+        function showIndicator() {
+            indicator.classList.add('visible');
+            setTimeout(() => {
+                indicator.classList.remove('visible');
+            }, 3000);
+        }
+
+        // Show when going offline
+        window.addEventListener('offline', showIndicator);
+
+        // Show once on load if offline
+        if (!navigator.onLine) {
+            showIndicator();
+        }
+    }
+
+    /**
+     * Setup email capture form
+     */
+    function setupEmailCapture() {
+        const form = document.getElementById('emailCaptureForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // Track submission
+            trackEvent('email_captured', { email_domain: email.split('@')[1] });
+            
+            // Show success message
+            const btn = this.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Subscribed!';
+            btn.style.background = 'var(--color-success)';
+            
+            setTimeout(() => {
+                // Close modal
+                const modal = document.getElementById('exitModal');
+                if (modal) modal.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                
+                // Reset button
+                btn.textContent = originalText;
+                btn.style.background = '';
+                this.reset();
+            }, 1500);
+        });
+    }
+
+    /**
+     * Setup mobile haptics
+     */
+    function setupMobileHaptics() {
+        // Check if device supports vibration
+        if (!navigator.vibrate) return;
+
+        const buttons = document.querySelectorAll('.cta-button, .store-button, .testimonial-nav, .faq-toggle');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Subtle haptic feedback (10ms)
+                navigator.vibrate(10);
+            });
         });
     }
 

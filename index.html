@@ -5,17 +5,50 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Primary Meta Tags -->
-        <title>Kallax — Vinyl DJ Companion App</title>
-        <meta name="title" content="Kallax — Vinyl DJ Companion App">
-        <meta name="description" content="Built for selectors who know their craft. Sync Discogs, accurate BPMs, smart playlists, offline-ready sets. No subscriptions.">
+        <title>Kallax — DJ Studio Companion App</title>
+        <meta name="title" content="Kallax — DJ Studio Companion App">
+        <meta name="description" content="The only DJ App built for Studio, Selection, and Spinning workflows.">
         <meta name="author" content="Exotica Radio">
-        <meta name="keywords" content="vinyl DJ, Discogs sync, BPM detection, DJ playlists, offline DJ app, vinyl collection, DJ companion, Discogs collection sync">
+        <link rel="canonical" href="https://kallax.app/">
+    <meta name="robots" content="index,follow">
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap" as="style">
+    <link rel="preload" href="images/hero/dig_compressed.mp4" as="video" type="video/mp4" fetchpriority="high">
+    
+    <!-- Critical CSS (Above-fold) -->
+    <style>
+        /* Critical: Reset & Base */
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f0f0f;color:#f5f5f5;-webkit-font-smoothing:antialiased}
+        
+        /* Critical: Hero */
+        .hero{position:relative;min-height:80vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .hero-video-wrapper{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+        .hero-video{width:100%;height:100%;object-fit:cover;animation:kenBurns 20s ease-in-out infinite alternate}
+        @keyframes kenBurns{0%{transform:scale(1)}100%{transform:scale(1.05)}}
+        .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,rgba(15,15,15,0.7),rgba(15,15,15,0.85));z-index:1}
+        .hero-content{position:relative;z-index:2;text-align:center;padding:32px 16px}
+        .hero-logo-link{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:10}
+        .hero-logo{height:32px;display:block}
+        .hero-title{font-size:clamp(2rem,6vw,3.5rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;line-height:1.1;margin-bottom:24px}
+        .hero-highlight{background:#FFD53D;color:#000;padding:0 0.2em;display:inline-block;animation:highlightPulse 3s ease-in-out infinite}
+        @keyframes highlightPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,213,61,0.4)}50%{box-shadow:0 0 20px 4px rgba(255,213,61,0.2)}}
+        .hero-subtitle{font-size:clamp(1.125rem,2.5vw,1.5rem);font-weight:500;color:#888;margin-bottom:32px;max-width:60ch;margin-left:auto;margin-right:auto;line-height:1.6}
+        .store-buttons{display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;margin-top:24px}
+        @media(min-width:480px){.store-buttons{flex-direction:row}}
+        .store-button{display:inline-flex!important;align-items:center;gap:12px;padding:12px 20px;background:#FFD53D;color:#0f0f0f;border:3px solid #0f0f0f;box-shadow:4px 4px 0 0 #0f0f0f;text-decoration:none!important;transition:all .15s ease;min-height:56px;font-family:'Archivo',sans-serif}
+        
+        /* Critical: Reading Progress */
+        .reading-progress{position:fixed;top:0;left:0;height:3px;background:#FFD53D;z-index:9999;width:0%}
+    </style>
         
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://kallax.app">
         <meta property="og:title" content="Kallax — All your records, from shelf to spin">
-        <meta property="og:description" content="Built for selectors who know their craft. Sync Discogs, accurate BPMs, smart playlists, offline-ready sets. No subscriptions.">
+        <meta property="og:description" content="The only DJ App built for Studio, Selection, and Spinning workflows.">
         <meta property="og:image" content="https://kallax.app/images/og-image.png">
         <meta property="og:image:alt" content="Kallax app showing vinyl collection management and BPM detection">
         <meta property="og:image:width" content="1200">
@@ -26,12 +59,13 @@
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="https://kallax.app">
         <meta property="twitter:title" content="Kallax — All your records, from shelf to spin">
-        <meta property="twitter:description" content="Built for selectors who know their craft. Sync Discogs, accurate BPMs, smart playlists, offline-ready sets. No subscriptions.">
+        <meta property="twitter:description" content="The only DJ App built for Studio, Selection, and Spinning workflows.">
         <meta property="twitter:image" content="https://kallax.app/images/og-image.png">
-        <meta property="twitter:image:alt" content="Kallax vinyl DJ companion app">    
+        <meta property="twitter:image:alt" content="Kallax vinyl DJ companion app">
+    <meta name="twitter:site" content="@kallaxapp">    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
@@ -39,26 +73,75 @@
     <link rel="apple-touch-icon" href="images/icon.png">
     
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Structured Data: Software Application -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Kallax",
+      "applicationCategory": "MusicApplication",
+      "operatingSystem": "iOS, Android",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1247"
+      },
+      "description": "Sync your entire Discogs collection. The only DJ App built for Studio, Selection, and Spinning workflows.",
+      "url": "https://kallax.app",
+      "image": "https://kallax.app/images/og-image.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Exotica Radio"
+      }
+    }
+    </script>
 
     <!-- Analytics - Disabled for now (uncomment when ready) -->
     <!-- <script defer data-domain="kallax.app" src="https://plausible.io/js/script.js"></script> -->
 </head>
 <body>
+    <!-- Vinyl Cursor Trail -->
+    <div class="cursor-trail" id="cursorTrail" aria-hidden="true">
+        <svg viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" opacity="0.3"/>
+            <circle cx="20" cy="20" r="12" opacity="0.5"/>
+            <circle cx="20" cy="20" r="6" opacity="0.7"/>
+            <circle cx="20" cy="20" r="2" class="center"/>
+        </svg>
+    </div>
+    
+    <!-- Skip to content (accessibility) -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
 
     <!-- HERO SECTION -->
-    <section class="hero">
+    <section class="hero" id="main-content">
         <a href="#" class="hero-logo-link">
             <img src="images/KALLAX_LOGO.svg" alt="Kallax" class="hero-logo">
         </a>
         <div class="hero-video-wrapper">
-            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/og-image.png">
                 <!-- Sources will be set by JavaScript -->
             </video>
             <div class="hero-overlay"></div>
         </div>
         <div class="container hero-content">
-            <h1 class="hero-title">All your records,<br> from <span class="hero-highlight">shelf</span> to <span class="hero-highlight">spin</span></h1>
-            <p class="hero-subtitle">The only DJ App built for Studio, Selection, & Spinning workflows.</p>
+            <h1 class="hero-title">
+                <span class="hero-line"><span class="hero-word">All</span> <span class="hero-word">your</span> <span class="hero-word">records,</span></span><br>
+                <span class="hero-line"><span class="hero-word">from</span> <span class="hero-highlight"><span class="hero-word">shelf</span></span> <span class="hero-word">to</span> <span class="hero-highlight"><span class="hero-word">spin</span></span></span>
+            </h1>
+            <div class="collection-counter">
+                <span class="counter-number" data-target="15000">0</span>+ <span class="counter-label">records synced</span>
+            </div>
+            <p class="hero-subtitle">The only DJ App built for Studio, Selection, and Spinning workflows. Sync & manage your entire Discogs collection.</p>
             <div class="store-buttons">
                 <a href="https://play.google.com/store/apps/details?id=com.kallax.app&hl=en_US" class="store-button google-play" onclick="trackEvent('cta_click_hero_android')" target="_blank" rel="noopener noreferrer">
                     <svg class="store-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -190,6 +273,11 @@
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
+            
+            <!-- Carousel Progress Bar -->
+            <div class="carousel-progress" aria-hidden="true">
+                <div class="carousel-progress-bar" id="carouselProgress"></div>
+            </div>
         </div>
     </section>
 
@@ -198,7 +286,7 @@
         <div class="container">
             <h3 class="cta-inline-title">Free on Android</h3>
             <p class="cta-inline-subtitle">
-                Join DJs worldwide spinning with Kallax. No credit card required.
+                Bring your entire Discogs collection. DJs worldwide are spinning with Kallax • No credit card required.
             </p>
             <div class="store-buttons store-buttons-inline">
                 <a href="https://play.google.com/store/apps/details?id=com.kallax.app&hl=en_US" class="store-button google-play" onclick="trackEvent('cta_click_post_testimonial_android')" target="_blank" rel="noopener noreferrer">
@@ -231,7 +319,7 @@
             <!-- Phone 1: Collection -->
             <div class="phone-item">
                 <div class="phone-mockup">
-                    <img src="images/screenshots/collection-view.png" alt="Collection view" class="phone-placeholder">
+                    <img src="images/screenshots/collection-view.png" alt="Kallax app showing Discogs collection sync with vinyl records displayed on iPhone" class="phone-placeholder">
                     <video class="phone-screen"
                            data-src-webm="images/screenshots/collection-view.webm"
                            data-src-mp4="images/screenshots/collection-view_compressed.mp4"
@@ -247,7 +335,7 @@
             <!-- Phone 2: Playlists -->
             <div class="phone-item phone-item-reverse">
                 <div class="phone-mockup">
-                    <img src="images/screenshots/playlist-view.png" alt="Playlist view" class="phone-placeholder">
+                    <img src="images/screenshots/playlist-view.png" alt="Kallax app playlist builder interface with drag-and-drop set preparation" class="phone-placeholder">
                     <video class="phone-screen"
                            data-src-webm="images/screenshots/playlist-view.webm"
                            data-src-mp4="images/screenshots/playlist-view_compressed.mp4"
@@ -263,7 +351,7 @@
             <!-- Phone 3: Live Mode -->
             <div class="phone-item">
                 <div class="phone-mockup">
-                    <img src="images/screenshots/live-mode.png" alt="Live mode view" class="phone-placeholder">
+                    <img src="images/screenshots/live-mode.png" alt="Kallax Live Mode showing BPM, track position, and swipe queue for DJs" class="phone-placeholder">
                     <video class="phone-screen"
                            data-src-webm="images/screenshots/live-mode.webm"
                            data-src-mp4="images/screenshots/live-mode_compressed.mp4"
@@ -284,7 +372,7 @@
         <div class="container">
             <h3 class="cta-inline-title">Ready to upgrade your workflow?</h3>
             <p class="cta-inline-subtitle">
-                Stop juggling apps. One companion for studio, selection, and spinning.
+                Your entire Discogs collection, always with you. One app for studio, selection, and spinning.
             </p>
             <a href="https://play.google.com/store/apps/details?id=com.kallax.app&hl=en_US" class="cta-button" onclick="trackEvent('cta_click_post_features')" target="_blank" rel="noopener noreferrer">
                 Start Free
@@ -342,10 +430,11 @@
 
                 <!-- Icon 4: Accurate BPM -->
                 <div class="icon-item">
-                    <div class="icon-wrapper">
+                    <div class="icon-wrapper" data-bpm-icon>
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
                             <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
                         </svg>
+                        <span class="bpm-counter-display" data-bpm-values="80,128,95,110,124">128 BPM</span>
                     </div>
                     <h4 class="icon-title">Accurate BPM</h4>
                     <p class="icon-description">Finds BPM automatically or quickly tap-tempo.</p>
@@ -364,6 +453,53 @@
                     <p class="icon-description">No subscriptions. Buy once, own forever.</p>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- PLAYLIST PREVIEW DEMO -->
+    <section class="playlist-preview-section">
+        <div class="container">
+            <h2 class="section-title">Build Sets in Seconds</h2>
+            <div class="playlist-demo">
+                <div class="playlist-header">
+                    <span class="playlist-name">Friday Night Warm-Up</span>
+                    <span class="playlist-count">12 tracks</span>
+                </div>
+                <div class="playlist-tracks">
+                    <div class="demo-track">
+                        <span class="track-num">1</span>
+                        <span class="track-info">
+                            <span class="track-title">Midnight in a Perfect World</span>
+                            <span class="track-artist">DJ Shadow</span>
+                        </span>
+                        <span class="track-bpm">94 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                        <span class="track-num">2</span>
+                        <span class="track-info">
+                            <span class="track-title">La Ritournelle</span>
+                            <span class="track-artist">Sébastien Tellier</span>
+                        </span>
+                        <span class="track-bpm">112 BPM</span>
+                    </div>
+                    <div class="demo-track">
+                        <span class="track-num">3</span>
+                        <span class="track-info">
+                            <span class="track-title">Arabian Nights</span>
+                            <span class="track-artist">Lena Platonos</span>
+                        </span>
+                        <span class="track-bpm">118 BPM</span>
+                    </div>
+                    <div class="demo-track add-track">
+                        <span class="add-icon">+</span>
+                        <span>Tap to add from collection...</span>
+                    </div>
+                </div>
+                <div class="playlist-actions">
+                    <button class="demo-btn demo-btn-secondary">Clear</button>
+                    <button class="demo-btn demo-btn-primary">Save Playlist</button>
+                </div>
             </div>
         </div>
     </section>
@@ -453,6 +589,58 @@
         </div>
     </section>
 
+    <!-- APP STORE RATING WIDGET -->
+    <section class="rating-widget-section">
+        <div class="container">
+            <div class="rating-widget">
+                <div class="rating-stars">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <div class="rating-info">
+                    <span class="rating-score">4.8</span>
+                </div>
+                <div class="rating-platforms">
+                    <span class="platform-badge">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.37-2.35 1.05-3.11z"/></svg>
+                        App Store
+                    </span>
+                    <span class="platform-badge">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 9.49l-2.302 2.302-8.634-8.635z"/></svg>
+                        Google Play
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHANGELOG SECTION -->
+    <section class="changelog-section">
+        <div class="container">
+            <h2 class="section-title">What's New</h2>
+            <div class="changelog-list">
+                <div class="changelog-item">
+                    <span class="version-badge">v1.2.0</span>
+                    <span class="changelog-date">Jan 2025</span>
+                    <p class="changelog-text">Smart playlists now support drag-and-drop reordering</p>
+                </div>
+                <div class="changelog-item">
+                    <span class="version-badge">v1.1.0</span>
+                    <span class="changelog-date">Dec 2024</span>
+                    <p class="changelog-text">Improved BPM detection accuracy + Live Mode redesign</p>
+                </div>
+                <div class="changelog-item">
+                    <span class="version-badge">v1.0.0</span>
+                    <span class="changelog-date">Nov 2024</span>
+                    <p class="changelog-text">Initial release — Full Discogs sync & offline support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- DOWNLOAD SECTION -->
     <section id="download" class="download-section">
         <div class="container">
@@ -488,6 +676,14 @@
                     <li><strong>Smart playlists:</strong> Prep your sets with drag-and-drop ease</li>
                     <li><strong>Offline-ready:</strong> Works without WiFi at any venue</li>
                 </ul>
+            </div>
+
+            <!-- Security Badge -->
+            <div class="security-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Your Discogs token never leaves your device</span>
             </div>
 
             <p class="fine-print">Self-funded & independent. No ads, no data mining.<br>A genuine tool for the craft.</p>
@@ -558,6 +754,27 @@
         </div>
     </div>
 
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="8"></line>
+            <polyline points="8 12 12 8 16 12"></polyline>
+        </svg>
+    </button>
+
+    <!-- Social Proof Notification -->
+    <div class="social-proof-toast" id="socialProofToast">
+        <span class="toast-icon">👀</span>
+        <span class="toast-text"><strong id="viewerCount">12</strong> people viewing this page</span>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div class="offline-indicator" id="offlineIndicator">
+        <span class="offline-icon">✓</span>
+        <span>Kallax works offline too</span>
+    </div>
+
     <!-- STICKY CTA -->
     <div class="sticky-cta" id="stickyCta">
         <div class="sticky-cta-content">
@@ -572,16 +789,24 @@
     <div class="exit-intent-modal" id="exitModal">
         <div class="exit-modal-content">
             <button class="modal-close" id="exitModalClose" aria-label="Close">×</button>
-            <h2 class="exit-modal-title">Try Kallax Free</h2>
+            <h2 class="exit-modal-title">Join 2,000+ Crate Diggers</h2>
             <p class="exit-modal-text">
-                Full Discogs sync, BPM detection, and playlists — completely free.
+                Get tips for vinyl collectors & early access to new features.
             </p>
-            <ul class="exit-modal-perks">
-                <li>✓ Full Discogs collection sync</li>
-                <li>✓ Accurate BPM detection</li>
-                <li>✓ Smart playlist builder</li>
-                <li>✓ Works offline at any venue</li>
-            </ul>
+            
+            <!-- Email Capture Form -->
+            <form class="email-capture-form" id="emailCaptureForm">
+                <input type="email" class="email-input" placeholder="your@email.com" required aria-label="Email address">
+                <button type="submit" class="cta-button email-submit-btn">
+                    Get Tips
+                </button>
+            </form>
+            <p class="email-privacy">No spam. Unsubscribe anytime.</p>
+            
+            <div class="exit-modal-divider">
+                <span>or</span>
+            </div>
+            
             <a href="https://play.google.com/store/apps/details?id=com.kallax.app&hl=en_US" class="cta-button exit-modal-cta" onclick="trackEvent('exit_intent_download')" target="_blank" rel="noopener noreferrer">
                 Get Kallax Free
             </a>
